@@ -1,8 +1,12 @@
 const mongoose = require("mongoose");
 const User = mongoose.model("User");
 
+exports.get = async () => {
+    return await User.find({});
+}
+
 exports.authenticate = async (data) => {
-    const res = await user.findOne({
+    const res = await User.findOne({
         email: data.email,
         password: data.password
     });
@@ -16,6 +20,16 @@ exports.create = async (data) => {
     await user.save();
 }
 
-exports.getById = async (id) => {
-    return await user.findById(id);
+exports.update = async (id, data) => {
+    await User.findByIdAndUpdate(id, {
+        $set: {
+            name: data.name,
+            email: data.email,
+            password: data.password
+        }
+    });
+}
+
+exports.delete = async id => {
+    await User.findByIdAndRemove(id);
 }
